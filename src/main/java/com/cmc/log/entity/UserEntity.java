@@ -23,4 +23,6 @@ public class UserEntity {
     private String address;
     @TableField("job")
     private String job;
+    @TableField("car_id")
+    private Long CarId;
 }

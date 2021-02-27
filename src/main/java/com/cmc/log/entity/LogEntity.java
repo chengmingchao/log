@@ -26,7 +26,7 @@ public class LogEntity {
     private String afJson;
 
     @TableField("service_id")
-    private Integer serviceId;
+    private Long serviceId;
 
     @TableField("service_type")
     private Integer serviceType;

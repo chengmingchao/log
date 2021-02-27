@@ -8,28 +8,17 @@ import lombok.Data;
  * @date 2021/2/25 下午10:36
  */
 public enum LogTypeEnum {
-    ADD(1,"ADD"),
-    EDIT(2,"EDIT");
+    ADD(1),
+    EDIT(2),
+    DELETE(3);
 
-    private Integer code;
-    private String logType;
+    private int code;
 
-    LogTypeEnum(Integer i, String add) {
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
+    LogTypeEnum(int code) {
         this.code = code;
     }
 
-    public String getLogType() {
-        return logType;
-    }
-
-    public void setLogType(String logType) {
-        this.logType = logType;
+    public int getCode() {
+        return code;
     }
 }

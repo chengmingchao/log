@@ -1,7 +1,6 @@
 package com.cmc.log.annotation;
 
 import java.lang.annotation.*;
-
 /**
  * @author chengmingchao
  * @version 1.0
@@ -11,10 +10,13 @@ import java.lang.annotation.*;
 @Target(value = {ElementType.METHOD})
 @Documented
 @Inherited
-public @interface LogService {
+public @interface ServiceLog {
 
     int serviceType();  //业务类型
 
     String mapper(); //使用到的mapper
 
+    Class classType();  //业务参数类型
+
+    int[] logType();//日志类型  1：新增、2：修改、3：删除
 }
