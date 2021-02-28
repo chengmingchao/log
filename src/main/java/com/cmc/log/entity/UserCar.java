@@ -11,7 +11,9 @@ import java.math.BigDecimal;
  */
 @Data
 public class UserCar {
+
     private Long id;
+
     private String name;
 
     private Integer age;

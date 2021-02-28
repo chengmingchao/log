@@ -16,6 +16,8 @@ public @interface ServiceLog {
 
     String mapper(); //使用到的mapper
 
+    String queryMethod() default ""; //查询单个详情的bean的方法
+
     Class classType();  //业务参数类型
 
     int[] logType();//日志类型  1：新增、2：修改、3：删除

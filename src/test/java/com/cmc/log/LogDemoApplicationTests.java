@@ -20,7 +20,7 @@ class LogDemoApplicationTests {
     void contextLoads() {
         UserCar userEntity=new UserCar();
         userEntity.setId(1L);
-        userEntity.setAddress("上海市");
+        userEntity.setAddress("北京市");
         userEntity.setAge(19);
         userEntity.setJob("工作");
         userEntity.setName("小名2222");

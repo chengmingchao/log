@@ -1,7 +1,9 @@
 package com.cmc.log.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.cmc.log.entity.UserCar;
 import com.cmc.log.entity.UserEntity;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author chengmingchao
@@ -10,4 +12,5 @@ import com.cmc.log.entity.UserEntity;
  */
 public interface UserDao extends BaseMapper<UserEntity> {
 
+    UserCar queryByUserId(@Param("id") Long id);
 }

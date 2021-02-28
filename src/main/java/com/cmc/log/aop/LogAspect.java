@@ -16,6 +16,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +59,8 @@ public class LogAspect {
         int serviceType = serviceLog.serviceType();
         //使用到的mapper
         String mapper = serviceLog.mapper();
+        //查询的方法
+        String queryMethod = serviceLog.queryMethod();
         //定义参数类型
         Class classType = serviceLog.classType();
         //日志类型
@@ -96,20 +100,22 @@ public class LogAspect {
         //修改
         if (logTypes.contains(2)){
             logEntity.setLogType(LogTypeEnum.EDIT.getCode());
-            //获取修改前的日志
-            Object o = bean.selectById(id);
             logEntity.setServiceId(id);
-            logEntity.setBeJson(JSONObject.toJSONString(o));
+            //获取修改前的数据
+            Object beData=getBeforeData(mapper,queryMethod,id);
+            logEntity.setBeJson(JSONObject.toJSONString(beData));
         }
         //删除
         if (logTypes.contains(2)){
             //TODO
         }
         logEntity.setAfJson(afString);
+        Boolean isSuccess=true;
         try {
             //执行方法
             Object proceed = joinPoint.proceed();
         } catch (Throwable throwable) {
+            isSuccess=false;
             throwable.printStackTrace();
         }
         //新增
@@ -122,8 +128,24 @@ public class LogAspect {
         }
         //TODO 防止内存泄漏
         //LogThreadLocal.remove();
-        //保存日志
-        logDao.insert(logEntity);
+        //保存日志,只有目标方法执行成功才会保存日志
+        if (isSuccess){
+            logDao.insert(logEntity);
+        }
         log.error("切面结束");
+    }
+
+    /**
+     * 查询修改之前的数据
+     * @param mapper    查询的mapper
+     * @param queryMethod   查询到方法
+     * @param id    查询的参数id
+     * @return
+     */
+    private Object getBeforeData(String mapper, String queryMethod, Long id) {
+        Object object = new Object();
+        Method method = ReflectionUtils.findMethod(SpringContextUtil.getBean(mapper).getClass(), queryMethod,Long.class);
+        object = ReflectionUtils.invokeMethod(method, SpringContextUtil.getBean(mapper), id);
+        return object;
     }
 }
